@@ -32,12 +32,15 @@ function App() {
         handleInput={handleInput}
         addItem={handleAddItem}
       />
-      <ToDoList
-        position="flex-left"
-        bordered={true}
-        items={toDoList}
-        onRemoveItem={handleDeleteItem}
-      />
+      <div id="to-do-list" className="centered">
+        <ToDoList
+          listClasses="flex-column"
+          elementClasses="flex-row"
+          bordered={true}
+          items={toDoList}
+          onRemoveItem={handleDeleteItem}
+        />
+      </div>
     </>
   );
 }
@@ -101,14 +104,20 @@ function Button({ inputFieldContents, buttonText, addItem }) {
   return <button onClick={addItem}>{buttonText}</button>;
 }
 
-function ToDoList({ position, items, onRemoveItem, bordered }) {
+function ToDoList({
+  listClasses,
+  elementClasses,
+  items,
+  onRemoveItem,
+  bordered,
+}) {
   return (
-    <ul>
+    <ul id="items-container" className={listClasses}>
       {items.map((item) => (
         <Item
           description={item}
           onRemoveItem={onRemoveItem}
-          position={position}
+          elementClasses={elementClasses}
           bordered={bordered}
         />
       ))}
@@ -116,13 +125,16 @@ function ToDoList({ position, items, onRemoveItem, bordered }) {
   );
 }
 
-function Item({ description, onRemoveItem, position, bordered }) {
+function Item({ description, onRemoveItem, elementClasses, bordered }) {
   const handleRemoveItem = () => onRemoveItem(description);
 
   return (
-    <div class={bordered ? `${position} bordered` : position}>
+    <div
+      id="item-div"
+      className={bordered ? `${elementClasses} bordered` : elementClasses}
+    >
       <p>{description}</p>
-      <button type="button" onClick={handleRemoveItem}>
+      <button id="resolve-btn" type="button" onClick={handleRemoveItem}>
         resolve
       </button>
     </div>
